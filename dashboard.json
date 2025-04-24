@@ -1,0 +1,452 @@
+views:
+  - title: Air Quality
+    badges: []
+    cards: []
+    type: sections
+    sections:
+      - type: grid
+        cards:
+          - chart_type: line
+            period: hour
+            type: statistics-graph
+            entities:
+              - sensor.jerusalem_yshrl_usalem_air_quality_index
+            stat_types:
+              - mean
+            title: AQI Over Time
+            days_to_show: 1
+            hide_legend: true
+          - type: grid
+            cards:
+              - type: custom:button-card
+                entity: weather.ims_weather
+                name: Temperature
+                icon: mdi:thermometer
+                show_state: true
+                show_name: true
+                show_icon: true
+                state_display: |
+                  [[[
+                    return entity.attributes.temperature + ' ' + entity.attributes.temperature_unit;
+                  ]]]
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+              - type: custom:button-card
+                entity: weather.ims_weather
+                name: Humidity
+                icon: mdi:water-percent
+                show_state: true
+                show_name: true
+                show_icon: true
+                state_display: |
+                  [[[
+                    return entity.attributes.humidity + '%';
+                  ]]]
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+              - type: custom:button-card
+                entity: weather.ims_weather
+                name: Wind
+                icon: mdi:weather-windy
+                show_state: true
+                show_name: true
+                show_icon: true
+                state_display: |
+                  [[[
+                    var speed = entity.attributes.wind_speed;
+                    var unit = entity.attributes.wind_speed_unit;
+                    var bearing = entity.attributes.wind_bearing;
+                    if (speed !== null && speed !== undefined && bearing !== null && bearing !== undefined) {
+                      return speed + ' ' + unit + ' @ ' + bearing + '°';
+                    }
+                    return 'N/A';
+                  ]]]
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 18px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+      - type: grid
+        cards:
+          - square: false
+            type: grid
+            cards:
+              - type: custom:button-card
+                entity: sensor.jerusalem_yshrl_usalem_air_quality_index
+                name: Air Quality Index (AQI)
+                icon: mdi:air-filter
+                show_state: true
+                show_name: true
+                show_icon: true
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+                state:
+                  - value: unavailable
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - value: unknown
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - operator: template
+                    value: '[[[ return !isNaN(entity.state); ]]]'
+                    styles:
+                      card:
+                        - background-color: |
+                            [[[
+                              var aqi = parseFloat(entity.state);
+                              if (aqi <= 50) return '#4CAF50'; // Green
+                              if (aqi <= 100) return '#FFEB3B'; // Yellow
+                              if (aqi <= 150) return '#FF9800'; // Orange
+                              if (aqi <= 200) return '#F44336'; // Red
+                              if (aqi <= 300) return '#9C27B0'; // Purple
+                              if (aqi > 300) return '#79000F'; // Maroon
+                              return '#777777'; // Default grey
+                            ]]]
+                      name:
+                        - color: |
+                            [[[
+                              var aqi = parseFloat(entity.state);
+                              if (aqi > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      state:
+                        - color: |
+                            [[[
+                              var aqi = parseFloat(entity.state);
+                              if (aqi > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      icon:
+                        - color: |
+                            [[[
+                              var aqi = parseFloat(entity.state);
+                              if (aqi > 150) return 'white';
+                              return 'black';
+                            ]]]
+              - type: custom:button-card
+                entity: sensor.jerusalem_yshrl_usalem_pm2_5
+                name: PM2.5
+                icon: mdi:blur
+                show_state: true
+                show_name: true
+                show_icon: true
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+                state:
+                  - value: unavailable
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - value: unknown
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - operator: template
+                    value: '[[[ return !isNaN(entity.state); ]]]'
+                    styles:
+                      card:
+                        - background-color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val <= 50) return '#4CAF50'; // Green
+                              if (val <= 100) return '#FFEB3B'; // Yellow
+                              if (val <= 150) return '#FF9800'; // Orange
+                              if (val <= 200) return '#F44336'; // Red
+                              if (val <= 300) return '#9C27B0'; // Purple
+                              if (val > 300) return '#79000F'; // Maroon
+                              return '#777777';
+                            ]]]
+                      name:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      state:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      icon:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+              - type: custom:button-card
+                entity: sensor.jerusalem_yshrl_usalem_pm10
+                name: PM10
+                icon: mdi:grain
+                show_state: true
+                show_name: true
+                show_icon: true
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+                state:
+                  - value: unavailable
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - value: unknown
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - operator: template
+                    value: '[[[ return !isNaN(entity.state); ]]]'
+                    styles:
+                      card:
+                        - background-color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val <= 50) return '#4CAF50'; // Green
+                              if (val <= 100) return '#FFEB3B'; // Yellow
+                              if (val <= 150) return '#FF9800'; // Orange
+                              if (val <= 200) return '#F44336'; // Red
+                              if (val <= 300) return '#9C27B0'; // Purple
+                              if (val > 300) return '#79000F'; // Maroon
+                              return '#777777';
+                            ]]]
+                      name:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      state:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      icon:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+              - type: custom:button-card
+                entity: sensor.jerusalem_yshrl_usalem_ozone
+                name: Ozone (O₃)
+                icon: mdi:molecule
+                show_state: true
+                show_name: true
+                show_icon: true
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+                state:
+                  - value: unavailable
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - value: unknown
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - operator: template
+                    value: '[[[ return !isNaN(entity.state); ]]]'
+                    styles:
+                      card:
+                        - background-color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              // Using standard AQI thresholds - adjust if Ozone uses different breakpoints
+                              if (val <= 50) return '#4CAF50'; // Green
+                              if (val <= 100) return '#FFEB3B'; // Yellow
+                              if (val <= 150) return '#FF9800'; // Orange
+                              if (val <= 200) return '#F44336'; // Red
+                              if (val <= 300) return '#9C27B0'; // Purple
+                              if (val > 300) return '#79000F'; // Maroon
+                              return '#777777';
+                            ]]]
+                      name:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      state:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      icon:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+              - type: custom:button-card
+                entity: sensor.jerusalem_yshrl_usalem_carbon_monoxide
+                name: Carbon Monoxide (CO)
+                icon: mdi:molecule-co
+                show_state: true
+                show_name: true
+                show_icon: true
+                styles:
+                  card:
+                    - padding: 10px
+                  state:
+                    - font-size: 20px
+                    - font-weight: bold
+                  name:
+                    - font-size: 12px
+                    - align-self: start
+                    - justify-self: start
+                    - padding-bottom: 5px
+                  icon:
+                    - width: 30%
+                    - align-self: end
+                    - justify-self: end
+                state:
+                  - value: unavailable
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - value: unknown
+                    styles:
+                      card:
+                        - background-color: '#777777'
+                  - operator: template
+                    value: '[[[ return !isNaN(entity.state); ]]]'
+                    styles:
+                      card:
+                        - background-color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val <= 50) return '#4CAF50'; // Green
+                              if (val <= 100) return '#FFEB3B'; // Yellow
+                              if (val <= 150) return '#FF9800'; // Orange
+                              if (val <= 200) return '#F44336'; // Red
+                              if (val <= 300) return '#9C27B0'; // Purple
+                              if (val > 300) return '#79000F'; // Maroon
+                              return '#777777';
+                            ]]]
+                      name:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      state:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+                      icon:
+                        - color: |
+                            [[[
+                              var val = parseFloat(entity.state);
+                              if (val > 150) return 'white';
+                              return 'black';
+                            ]]]
+            columns: 2
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: '# Jerusalem Air Quality Dashboard'
+    max_columns: 2
