@@ -37,6 +37,353 @@ The values below could be mapped to interpretation logic
 | 301 and higher      | Hazardous                                  | Maroon (RGB: 128, 0, 0)           |
 
 
+## WAQI Parameters Grid
+
+Replace with your sensor values:
+
+```yaml
+square: false
+type: grid
+cards:
+  - type: custom:button-card
+    entity: sensor.jerusalem_yshrl_usalem_air_quality_index
+    name: Air Quality Index (AQI)
+    icon: mdi:air-filter
+    show_state: true
+    show_name: true
+    show_icon: true
+    styles:
+      card:
+        - padding: 10px
+      state:
+        - font-size: 20px
+        - font-weight: bold
+      name:
+        - font-size: 12px
+        - align-self: start
+        - justify-self: start
+        - padding-bottom: 5px
+      icon:
+        - width: 30%
+        - align-self: end
+        - justify-self: end
+    state:
+      - value: unavailable
+        styles:
+          card:
+            - background-color: "#777777"
+      - value: unknown
+        styles:
+          card:
+            - background-color: "#777777"
+      - operator: template
+        value: "[[[ return !isNaN(entity.state); ]]]"
+        styles:
+          card:
+            - background-color: |
+                [[[
+                  var aqi = parseFloat(entity.state);
+                  if (aqi <= 50) return '#4CAF50'; // Green
+                  if (aqi <= 100) return '#FFEB3B'; // Yellow
+                  if (aqi <= 150) return '#FF9800'; // Orange
+                  if (aqi <= 200) return '#F44336'; // Red
+                  if (aqi <= 300) return '#9C27B0'; // Purple
+                  if (aqi > 300) return '#79000F'; // Maroon
+                  return '#777777'; // Default grey
+                ]]]
+          name:
+            - color: |
+                [[[
+                  var aqi = parseFloat(entity.state);
+                  if (aqi > 150) return 'white';
+                  return 'black';
+                ]]]
+          state:
+            - color: |
+                [[[
+                  var aqi = parseFloat(entity.state);
+                  if (aqi > 150) return 'white';
+                  return 'black';
+                ]]]
+          icon:
+            - color: |
+                [[[
+                  var aqi = parseFloat(entity.state);
+                  if (aqi > 150) return 'white';
+                  return 'black';
+                ]]]
+  - type: custom:button-card
+    entity: sensor.jerusalem_yshrl_usalem_pm2_5
+    name: PM2.5
+    icon: mdi:blur
+    show_state: true
+    show_name: true
+    show_icon: true
+    styles:
+      card:
+        - padding: 10px
+      state:
+        - font-size: 20px
+        - font-weight: bold
+      name:
+        - font-size: 12px
+        - align-self: start
+        - justify-self: start
+        - padding-bottom: 5px
+      icon:
+        - width: 30%
+        - align-self: end
+        - justify-self: end
+    state:
+      - value: unavailable
+        styles:
+          card:
+            - background-color: "#777777"
+      - value: unknown
+        styles:
+          card:
+            - background-color: "#777777"
+      - operator: template
+        value: "[[[ return !isNaN(entity.state); ]]]"
+        styles:
+          card:
+            - background-color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val <= 50) return '#4CAF50'; // Green
+                  if (val <= 100) return '#FFEB3B'; // Yellow
+                  if (val <= 150) return '#FF9800'; // Orange
+                  if (val <= 200) return '#F44336'; // Red
+                  if (val <= 300) return '#9C27B0'; // Purple
+                  if (val > 300) return '#79000F'; // Maroon
+                  return '#777777';
+                ]]]
+          name:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          state:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          icon:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+  - type: custom:button-card
+    entity: sensor.jerusalem_yshrl_usalem_pm10
+    name: PM10
+    icon: mdi:grain
+    show_state: true
+    show_name: true
+    show_icon: true
+    styles:
+      card:
+        - padding: 10px
+      state:
+        - font-size: 20px
+        - font-weight: bold
+      name:
+        - font-size: 12px
+        - align-self: start
+        - justify-self: start
+        - padding-bottom: 5px
+      icon:
+        - width: 30%
+        - align-self: end
+        - justify-self: end
+    state:
+      - value: unavailable
+        styles:
+          card:
+            - background-color: "#777777"
+      - value: unknown
+        styles:
+          card:
+            - background-color: "#777777"
+      - operator: template
+        value: "[[[ return !isNaN(entity.state); ]]]"
+        styles:
+          card:
+            - background-color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val <= 50) return '#4CAF50'; // Green
+                  if (val <= 100) return '#FFEB3B'; // Yellow
+                  if (val <= 150) return '#FF9800'; // Orange
+                  if (val <= 200) return '#F44336'; // Red
+                  if (val <= 300) return '#9C27B0'; // Purple
+                  if (val > 300) return '#79000F'; // Maroon
+                  return '#777777';
+                ]]]
+          name:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          state:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          icon:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+  - type: custom:button-card
+    entity: sensor.jerusalem_yshrl_usalem_ozone
+    name: Ozone (O₃)
+    icon: mdi:molecule
+    show_state: true
+    show_name: true
+    show_icon: true
+    styles:
+      card:
+        - padding: 10px
+      state:
+        - font-size: 20px
+        - font-weight: bold
+      name:
+        - font-size: 12px
+        - align-self: start
+        - justify-self: start
+        - padding-bottom: 5px
+      icon:
+        - width: 30%
+        - align-self: end
+        - justify-self: end
+    state:
+      - value: unavailable
+        styles:
+          card:
+            - background-color: "#777777"
+      - value: unknown
+        styles:
+          card:
+            - background-color: "#777777"
+      - operator: template
+        value: "[[[ return !isNaN(entity.state); ]]]"
+        styles:
+          card:
+            - background-color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  // Using standard AQI thresholds - adjust if Ozone uses different breakpoints
+                  if (val <= 50) return '#4CAF50'; // Green
+                  if (val <= 100) return '#FFEB3B'; // Yellow
+                  if (val <= 150) return '#FF9800'; // Orange
+                  if (val <= 200) return '#F44336'; // Red
+                  if (val <= 300) return '#9C27B0'; // Purple
+                  if (val > 300) return '#79000F'; // Maroon
+                  return '#777777';
+                ]]]
+          name:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          state:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          icon:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+  - type: custom:button-card
+    entity: sensor.jerusalem_yshrl_usalem_carbon_monoxide
+    name: Carbon Monoxide (CO)
+    icon: mdi:molecule-co
+    show_state: true
+    show_name: true
+    show_icon: true
+    styles:
+      card:
+        - padding: 10px
+      state:
+        - font-size: 20px
+        - font-weight: bold
+      name:
+        - font-size: 12px
+        - align-self: start
+        - justify-self: start
+        - padding-bottom: 5px
+      icon:
+        - width: 30%
+        - align-self: end
+        - justify-self: end
+    state:
+      - value: unavailable
+        styles:
+          card:
+            - background-color: "#777777"
+      - value: unknown
+        styles:
+          card:
+            - background-color: "#777777"
+      - operator: template
+        value: "[[[ return !isNaN(entity.state); ]]]"
+        styles:
+          card:
+            - background-color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val <= 50) return '#4CAF50'; // Green
+                  if (val <= 100) return '#FFEB3B'; // Yellow
+                  if (val <= 150) return '#FF9800'; // Orange
+                  if (val <= 200) return '#F44336'; // Red
+                  if (val <= 300) return '#9C27B0'; // Purple
+                  if (val > 300) return '#79000F'; // Maroon
+                  return '#777777';
+                ]]]
+          name:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          state:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+          icon:
+            - color: |
+                [[[
+                  var val = parseFloat(entity.state);
+                  if (val > 150) return 'white';
+                  return 'black';
+                ]]]
+columns: 2
+```
+
 ## AQI Widget With Suggested Color Coding
 
 ```yaml
